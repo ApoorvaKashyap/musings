@@ -130,3 +130,6 @@ outputs:
     - RSS
     - JSON 
 
+caches:
+  images:
+    dir: :cacheDir/images
