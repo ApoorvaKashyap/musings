@@ -1,0 +1,35 @@
+{{- /* Sync Giscus theme with PaperMod theme toggle */ -}}
+<script>
+    (function () {
+        function getGiscusTheme() {
+            const theme = document.querySelector("html").dataset.theme;
+            return theme === "dark" ? "dark" : "light";
+        }
+
+        function setGiscusTheme(theme) {
+            const iframe = document.querySelector("iframe.giscus-frame");
+            if (iframe) {
+                iframe.contentWindow.postMessage(
+                    { giscus: { setConfig: { theme: theme } } },
+                    "https://giscus.app"
+                );
+            }
+        }
+
+        // Watch for PaperMod theme toggle
+        const toggle = document.getElementById("theme-toggle");
+        if (toggle) {
+            toggle.addEventListener("click", function () {
+                // Small delay to let PaperMod update the attribute first
+                setTimeout(function () {
+                    setGiscusTheme(getGiscusTheme());
+                }, 50);
+            });
+        }
+
+        // Also handle OS preference changes
+        window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", function (e) {
+            setGiscusTheme(e.matches ? "dark" : "light");
+        });
+    })();
+</script>
