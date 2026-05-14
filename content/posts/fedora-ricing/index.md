@@ -1,6 +1,6 @@
 ---
-title: "Setting Up Fedora for Eye-Pleasing Development Work "
-date: '2026-03-03'
+title: "Setting Up A Minimal Eye-Pleasing Fedora"
+date: '2026-05-14'
 # weight: 1
 # aliases: ["/first"]
 tags: ["ricing", "niri", "dms", "fedora"]
