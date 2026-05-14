@@ -1,0 +1,15 @@
+{{- if eq .Type "alert" -}} {{- $emoji := "ℹ️" -}} {{- if eq .AlertType "tip"
+}}{{ $emoji = "💡" }}{{ end -}} {{- if eq .AlertType "important" }}{{ $emoji =
+"🔮" }}{{ end -}} {{- if eq .AlertType "warning" }}{{ $emoji = "⚠️" }}{{ end -}}
+{{- if eq .AlertType "caution" }}{{ $emoji = "🛑" }}{{ end -}}
+
+<div class="notice alert-{{ .AlertType }}">
+    <div class="notice-title">
+        <span class="notice-emoji">{{ $emoji }}</span>
+        {{- .AlertType | humanize -}}
+    </div>
+    <div class="notice-content">{{- .Text | safeHTML -}}</div>
+</div>
+{{- else -}}
+<blockquote>{{ .Text | safeHTML }}</blockquote>
+{{- end -}}

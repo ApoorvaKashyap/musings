@@ -46,7 +46,7 @@ params:
   # home-info mode
   homeInfoParams:
     Title: "Hi there \U0001F44B"
-    Content: Welcome to the musings of a rubber ducky on the world of programming, technology, and beyond. 
+    Content: Welcome to the musings of a rubber ducky on the world of programming, technology, and beyond.
 
   socialIcons:
     - name: website
@@ -115,21 +115,27 @@ menu:
       url: https://apoorvakashyap.github.io/
       weight: 50
 
-pygmentsUseClasses: true
 markup:
   highlight:
-    noClasses: false
-    # anchorLineNos: true
-    # codeFences: true
-    # guessSyntax: true
+    noClasses: true
+    anchorLineNos: true
+    codeFences: true
+    guessSyntax: true
     # lineNos: true
-    # style: monokai
+    style: nord
+  goldmark:
+    renderer:
+      unsafe: true
+
 outputs:
   home:
     - HTML
     - RSS
-    - JSON 
-
+    - JSON
+  page:
+    - HTML
+  section:
+    - HTML
 caches:
   images:
     dir: :cacheDir/images

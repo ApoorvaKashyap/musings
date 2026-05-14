@@ -15,3 +15,178 @@ iframe {
 .entry-cover img {
     border: 1px solid var(--border);
 }
+
+/* Body Modifications */
+@import url("googleapis.com");
+
+/* Import Geist, Playfair Display, and Fira Code from Google Fonts */
+@import url("googleapis.com");
+
+:root {
+    /* Set Geist as the primary system-wide body font */
+    --font-family: "Geist", sans-serif;
+}
+
+/* Force headings to use the Serif Font layout profile */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.logo a {
+    font-family: "PMerriweather", serif !important;
+    font-weight: 700 !important;
+    letter-spacing: -0.02em;
+}
+
+/* Maintain advanced rendering and programming ligatures for code text blocks */
+code,
+pre,
+kbd,
+samp {
+    font-family: "Fira Code", monospace !important;
+    font-variant-ligatures: common-ligatures !important;
+    text-rendering: optimizeLegibility !important;
+}
+
+/* Base Notice Structure */
+.notice {
+    padding: 0.8rem 1rem;
+    margin: 1.5rem 0;
+    border-left: 4px solid var(--border);
+    border-radius: 4px;
+    background-color: var(--code-bg);
+    color: var(--content);
+}
+
+.notice-title {
+    display: flex;
+    align-items: center;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.4rem;
+}
+
+.notice-emoji {
+    margin-right: 0.5rem;
+    font-size: 1rem;
+    line-height: 1;
+}
+
+.notice-content p:last-child {
+    margin-bottom: 0;
+}
+
+/* Alert Color Palettes */
+/* [!NOTE] (Blue) */
+.notice.alert-note {
+    border-left-color: #3b82f6;
+}
+.notice.alert-note .notice-title {
+    color: #3b82f6;
+}
+
+/* [!TIP] (Green) */
+.notice.alert-tip {
+    border-left-color: #10b981;
+}
+.notice.alert-tip .notice-title {
+    color: #10b981;
+}
+
+/* [!IMPORTANT] (Purple) */
+.notice.alert-important {
+    border-left-color: #8b5cf6;
+}
+.notice.alert-important .notice-title {
+    color: #8b5cf6;
+}
+
+/* [!WARNING] (Orange) */
+.notice.alert-warning {
+    border-left-color: #f59e0b;
+}
+.notice.alert-warning .notice-title {
+    color: #f59e0b;
+}
+
+/* [!CAUTION] (Red) */
+.notice.alert-caution {
+    border-left-color: #ef4444;
+}
+.notice.alert-caution .notice-title {
+    color: #ef4444;
+}
+
+figcaption {
+    text-align: center;
+    font-style: oblique !important;
+    font-size: 0.6rem;
+    color: slategray !important;
+}
+
+/* Rounded PaperMod-style code block */
+.highlight {
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+/* Add space on the right for controls */
+.highlight pre {
+    margin: 0;
+    padding-right: 5.5rem;
+    border-radius: 12px;
+    background: transparent !important;
+    overflow-x: auto;
+    min-height: 3rem;
+}
+
+/* Language badge */
+.highlight code[data-lang]::before {
+    content: attr(data-lang);
+
+    position: absolute;
+    top: 0.6rem;
+    right: 0.85rem;
+
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1;
+
+    text-transform: lowercase;
+}
+
+/* Copy button */
+.copy-code {
+    position: absolute;
+    top: 1.7rem;
+    right: 0.85rem;
+
+    padding: 0;
+    border: 0;
+    background: transparent;
+
+    color: var(--secondary);
+
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1;
+
+    transition: color 0.2s ease;
+    /*background: rgba(255, 255, 255, 0.03);*/
+}
+
+/* PaperMod hover */
+.copy-code:hover {
+    color: var(--primary);
+}
+
+.copy-code:focus,
+.copy-code:active {
+    outline: none;
+    box-shadow: none;
+}
