@@ -1,0 +1,50 @@
+{{- define "main" -}}
+{{- $nodes := slice -}}
+{{- $links := slice -}}
+{{- $mainSections := site.Params.mainSections | default (slice "posts") -}}
+{{- range where site.RegularPages "Section" "in" $mainSections -}}
+  {{- if not .Params.searchHidden -}}
+    {{- $pageID := .RelPermalink -}}
+    {{- $nodes = $nodes | append (dict "id" $pageID "title" .Title "url" .RelPermalink "type" "page") -}}
+    {{- range (.Params.tags | default slice) -}}
+      {{- $tagID := printf "tags/%s/" (. | urlize) | relURL -}}
+      {{- $nodes = $nodes | append (dict "id" $tagID "title" . "url" $tagID "type" "tag") -}}
+      {{- $links = $links | append (dict "source" $pageID "target" $tagID "type" "tag") -}}
+    {{- end -}}
+    {{- $rawLinks := findRE `\[\[([^\]|]+)(?:\|[^\]]+)?\]\]` .RawContent -}}
+    {{- range $rawLinks -}}
+      {{- $targetTitle := replaceRE `^\[\[([^\]|]+).*$` "$1" . -}}
+      {{- range where site.RegularPages "Title" $targetTitle -}}
+        {{- $links = $links | append (dict "source" $pageID "target" .RelPermalink "type" "wiki") -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+<article class="post-single">
+  <header class="post-header">
+    {{ partial "breadcrumbs.html" . }}
+    <h1 class="post-title">{{ .Title }}</h1>
+    {{- with .Summary }}<div class="post-description">{{ . }}</div>{{ end -}}
+  </header>
+  <div class="garden-graph-shell">
+    <div class="garden-graph-toolbar">
+      <input id="garden-graph-search" type="search" placeholder="Filter notes and tags" aria-label="Filter graph">
+      <select id="garden-graph-filter" aria-label="Filter node type">
+        <option value="all">All</option>
+        <option value="page">Posts</option>
+        <option value="tag">Tags</option>
+      </select>
+    </div>
+    <svg id="garden-graph" role="img" aria-label="Knowledge graph"></svg>
+  </div>
+</article>
+<script>
+  window.gardenGraph = {
+    nodes: {{ $nodes | uniq | jsonify | safeJS }},
+    links: {{ $links | jsonify | safeJS }}
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js" defer></script>
+{{- $graphJS := resources.Get "js/garden-graph.js" | minify | fingerprint -}}
+<script src="{{ $graphJS.RelPermalink }}" defer></script>
+{{- end -}}

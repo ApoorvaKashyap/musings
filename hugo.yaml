@@ -33,6 +33,8 @@ params:
   disableSpecial1stPost: false
   disableScrollToTop: false
   comments: true
+  mainSections:
+    - posts
   hidemeta: false
   hideSummary: false
   showtoc: false
@@ -110,10 +112,22 @@ menu:
       name: Tags
       url: /tags/
       weight: 40
+    - identifier: series
+      name: Series
+      url: /series/
+      weight: 45
+    - identifier: graph
+      name: Graph
+      url: /graph/
+      weight: 46
     - identifier: about
       name: About Me
       url: https://apoorvakashyap.github.io/
       weight: 50
+
+taxonomies:
+  tag: tags
+  series: series
 
 markup:
   highlight:

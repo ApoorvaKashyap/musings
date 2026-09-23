@@ -1,0 +1,21 @@
+{{- with .Params.series -}}
+  {{- $seriesName := . -}}
+  {{- $current := $ -}}
+  {{- $members := where site.RegularPages "Params.series" $seriesName -}}
+  {{- $members = sort $members "Params.seriesOrder" "asc" -}}
+  {{- if gt (len $members) 1 -}}
+    <section class="garden-panel garden-series" aria-labelledby="garden-series-title">
+      <div class="garden-panel-header">
+        <h2 id="garden-series-title">Series: {{ $seriesName }}</h2>
+        <span>{{ len $members }} parts</span>
+      </div>
+      <ol>
+        {{- range $members -}}
+          <li class="{{ if eq .RelPermalink $current.RelPermalink }}is-current{{ end }}">
+            <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+          </li>
+        {{- end -}}
+      </ol>
+    </section>
+  {{- end -}}
+{{- end -}}

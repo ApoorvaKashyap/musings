@@ -1,0 +1,14 @@
+{{- $pages := slice -}}
+{{- $mainSections := site.Params.mainSections | default (slice "posts") -}}
+{{- range where site.RegularPages "Section" "in" $mainSections -}}
+  {{- if not .Params.searchHidden -}}
+    {{- $pages = $pages | append (dict
+      "title" .Title
+      "url" .RelPermalink
+      "section" .Section
+      "tags" (.Params.tags | default slice)
+      "series" (.Params.series | default "")
+    ) -}}
+  {{- end -}}
+{{- end -}}
+{{- $pages | jsonify -}}

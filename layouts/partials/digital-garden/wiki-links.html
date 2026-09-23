@@ -1,0 +1,43 @@
+<script>
+  window.gardenPages = {{ partial "digital-garden/page-index.html" . | safeJS }};
+  (function () {
+    const content = document.querySelector(".post-content");
+    if (!content || !window.gardenPages) return;
+
+    const byTitle = new Map(window.gardenPages.map((page) => [page.title.toLowerCase(), page]));
+    const walker = document.createTreeWalker(content, NodeFilter.SHOW_TEXT, {
+      acceptNode(node) {
+        const parent = node.parentElement;
+        if (!parent || ["A", "CODE", "PRE", "SCRIPT", "STYLE"].includes(parent.tagName)) {
+          return NodeFilter.FILTER_REJECT;
+        }
+        return node.nodeValue.includes("[[") ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_SKIP;
+      }
+    });
+
+    const nodes = [];
+    while (walker.nextNode()) nodes.push(walker.currentNode);
+
+    nodes.forEach((node) => {
+      const fragment = document.createDocumentFragment();
+      const parts = node.nodeValue.split(/(\[\[[^\]]+\]\])/g);
+      parts.forEach((part) => {
+        const match = part.match(/^\[\[([^\]|]+)(?:\|([^\]]+))?\]\]$/);
+        if (!match) {
+          fragment.append(document.createTextNode(part));
+          return;
+        }
+        const target = match[1].trim();
+        const label = (match[2] || target).trim();
+        const page = byTitle.get(target.toLowerCase());
+        const link = document.createElement("a");
+        link.textContent = label;
+        link.className = page ? "wiki-link" : "wiki-link wiki-link-broken";
+        link.href = page ? page.url : "{{ "search/" | relURL }}?q=" + encodeURIComponent(target);
+        link.title = page ? "Open note" : "No matching note yet";
+        fragment.append(link);
+      });
+      node.replaceWith(fragment);
+    });
+  })();
+</script>

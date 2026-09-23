@@ -84,4 +84,139 @@
     .menu a.active {
         color: var(--accent);
     }
+
+    .wiki-link {
+        color: var(--accent);
+        font-weight: 600;
+    }
+
+    .wiki-link-broken {
+        color: #c2410c;
+        border-bottom: 1px dashed currentColor;
+        box-shadow: none;
+    }
+
+    .garden-panel {
+        margin: 32px 0;
+        padding: 18px 20px;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        background: var(--entry);
+    }
+
+    .garden-panel h2 {
+        margin: 0 0 12px;
+        font-size: 1rem;
+    }
+
+    .garden-panel-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 12px;
+    }
+
+    .garden-panel-header h2 {
+        margin: 0;
+    }
+
+    .garden-panel-header span {
+        color: var(--secondary);
+        font-size: 0.85rem;
+        white-space: nowrap;
+    }
+
+    .garden-series ol,
+    .garden-backlinks ul {
+        margin: 0;
+        padding-inline-start: 1.25rem;
+    }
+
+    .garden-series li,
+    .garden-backlinks li {
+        margin: 6px 0;
+    }
+
+    .garden-series .is-current {
+        color: var(--accent);
+        font-weight: 700;
+    }
+
+    .garden-graph-shell {
+        margin-top: 24px;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        overflow: hidden;
+        background: var(--entry);
+    }
+
+    .garden-graph-toolbar {
+        display: flex;
+        gap: 10px;
+        padding: 12px;
+        border-bottom: 1px solid var(--border);
+    }
+
+    .garden-graph-toolbar input,
+    .garden-graph-toolbar select {
+        min-height: 38px;
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        background: var(--theme);
+        color: var(--primary);
+        padding: 0 10px;
+    }
+
+    .garden-graph-toolbar input {
+        flex: 1;
+        min-width: 0;
+    }
+
+    #garden-graph {
+        display: block;
+        width: 100%;
+        height: min(68vh, 680px);
+        min-height: 420px;
+    }
+
+    .garden-graph-link {
+        stroke: var(--tertiary);
+        stroke-opacity: 0.75;
+        stroke-width: 1.2;
+    }
+
+    .garden-graph-link.is-wiki {
+        stroke: var(--accent);
+    }
+
+    .garden-graph-node {
+        fill: var(--accent);
+        stroke: var(--entry);
+        stroke-width: 2;
+    }
+
+    .garden-graph-node.is-tag {
+        fill: #64748b;
+    }
+
+    .garden-graph-nodes text {
+        fill: var(--primary);
+        font-size: 12px;
+        paint-order: stroke;
+        stroke: var(--entry);
+        stroke-width: 4px;
+        stroke-linejoin: round;
+    }
+
+    @media (max-width: 640px) {
+        .garden-graph-toolbar {
+            flex-direction: column;
+        }
+
+        #garden-graph {
+            height: 62vh;
+            min-height: 360px;
+        }
+    }
 </style>

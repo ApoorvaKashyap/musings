@@ -4,6 +4,8 @@ date: '{{ now.Format "2006-01-02" }}'
 # weight: 1
 # aliases: ["/first"]
 tags: ["first"]
+# series: "Series Name"
+# seriesOrder: 1
 author: "Apoorva Kashyap"
 # author: ["Me", "You"] # multiple authors
 showToc: true

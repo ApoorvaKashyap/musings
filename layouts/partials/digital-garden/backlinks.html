@@ -1,0 +1,19 @@
+{{- $current := . -}}
+{{- $needleTitle := printf "[[%s]]" $current.Title -}}
+{{- $needlePath := printf "%s" (path.BaseName $current.File.Path) -}}
+{{- $backlinks := slice -}}
+{{- range site.RegularPages -}}
+  {{- if and (ne .RelPermalink $current.RelPermalink) (or (in .RawContent $needleTitle) (in .RawContent (printf "[[%s]]" $needlePath))) -}}
+    {{- $backlinks = $backlinks | append . -}}
+  {{- end -}}
+{{- end -}}
+{{- if gt (len $backlinks) 0 -}}
+  <section class="garden-panel garden-backlinks" aria-labelledby="garden-backlinks-title">
+    <h2 id="garden-backlinks-title">Backlinks</h2>
+    <ul>
+      {{- range $backlinks -}}
+        <li><a href="{{ .RelPermalink }}">{{ .Title }}</a></li>
+      {{- end -}}
+    </ul>
+  </section>
+{{- end -}}
