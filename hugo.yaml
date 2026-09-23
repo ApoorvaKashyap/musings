@@ -1,5 +1,4 @@
 baseURL: https://apoorvakashyap.github.io/musings/
-languageCode: en-us
 title: Rubber Ducky Musings
 theme: PaperMod
 
@@ -94,12 +93,19 @@ params:
     lang: "en"
     loading: "lazy"
 
+language:
+  locale: en
+
 menu:
   main:
     - identifier: posts
       name: Posts
       url: /posts/
       weight: 10
+    - identifier: notes
+      name: Notes
+      url: /notes/
+      weight: 15
     - identifier: archives
       name: Archives
       url: /archives/

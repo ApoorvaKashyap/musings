@@ -1,0 +1,44 @@
+{{- $notes := where site.RegularPages "Section" "notes" -}}
+{{- $items := slice -}}
+{{- range $notes -}}
+  {{- if not .Draft -}}
+    {{- $items = $items | append (dict
+      "title" .Title
+      "url" .RelPermalink
+      "date" (.Date.Format "2006-01-02")
+      "due" (.Params.due | default "")
+      "summary" (.Description | default (.Summary | plainify))
+    ) -}}
+  {{- end -}}
+{{- end -}}
+<section class="notes-calendar" aria-labelledby="notes-calendar-title">
+  <div class="notes-calendar-header">
+    <div>
+      <h2 id="notes-calendar-title">Notes Calendar</h2>
+      <p>{{ len $items }} notes across the garden</p>
+    </div>
+    <div class="notes-calendar-controls" aria-label="Calendar navigation">
+      <button type="button" class="notes-calendar-prev" aria-label="Previous month">‹</button>
+      <button type="button" class="notes-calendar-label" aria-expanded="false" aria-controls="notes-calendar-chooser"></button>
+      <button type="button" class="notes-calendar-next" aria-label="Next month">›</button>
+    </div>
+    <div class="notes-calendar-chooser" id="notes-calendar-chooser" hidden>
+      <label>
+        <span>Month</span>
+        <select class="notes-calendar-month"></select>
+      </label>
+      <label>
+        <span>Year</span>
+        <select class="notes-calendar-year"></select>
+      </label>
+    </div>
+  </div>
+  <div class="notes-calendar-weekdays" aria-hidden="true">
+    <span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span>
+  </div>
+  <div class="notes-calendar-grid" aria-live="polite"></div>
+  <div class="notes-calendar-detail" hidden></div>
+</section>
+<script type="application/json" id="notes-calendar-data">{{ $items | jsonify | safeJS }}</script>
+{{- $notesCalendar := resources.Get "js/notes-calendar.js" | minify | fingerprint -}}
+<script src="{{ $notesCalendar.RelPermalink }}" defer></script>
