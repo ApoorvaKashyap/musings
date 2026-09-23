@@ -2,23 +2,25 @@
 {{- $nodes := slice -}}
 {{- $links := slice -}}
 {{- $mainSections := site.Params.mainSections | default (slice "posts") -}}
-{{- range where site.RegularPages "Section" "in" $mainSections -}}
-  {{- if not .Params.searchHidden -}}
-    {{- $pageID := .RelPermalink -}}
-    {{- $nodes = $nodes | append (dict "id" $pageID "title" .Title "url" .RelPermalink "type" "page") -}}
-    {{- range (.Params.tags | default slice) -}}
-      {{- $tagID := printf "tags/%s/" (. | urlize) | relURL -}}
-      {{- $nodes = $nodes | append (dict "id" $tagID "title" . "url" $tagID "type" "tag") -}}
-      {{- $links = $links | append (dict "source" $pageID "target" $tagID "type" "tag") -}}
-    {{- end -}}
-    {{- $rawLinks := findRE `\[\[([^\]|]+)(?:\|[^\]]+)?\]\]` .RawContent -}}
-    {{- range $rawLinks -}}
-      {{- $targetTitle := replaceRE `^\[\[([^\]|]+).*$` "$1" . -}}
-      {{- range where site.RegularPages "Title" $targetTitle -}}
-        {{- $links = $links | append (dict "source" $pageID "target" .RelPermalink "type" "wiki") -}}
-      {{- end -}}
-    {{- end -}}
-  {{- end -}}
+{{- $sections := $mainSections | append "notes" | uniq -}}
+{{- range where site.RegularPages "Section" "in" $sections -}}
+{{- if not .Params.searchHidden -}}
+{{- $pageID := .RelPermalink -}}
+{{- $nodes = $nodes | append (dict "id" $pageID "title" .Title "url" .RelPermalink "type" (cond (eq .Section "notes")
+"note" "page")) -}}
+{{- range (.Params.tags | default slice) -}}
+{{- $tagID := printf "tags/%s/" (. | urlize) | relURL -}}
+{{- $nodes = $nodes | append (dict "id" $tagID "title" . "url" $tagID "type" "tag") -}}
+{{- $links = $links | append (dict "source" $pageID "target" $tagID "type" "tag") -}}
+{{- end -}}
+{{- $rawLinks := findRE `\[\[([^\]|]+)(?:\|[^\]]+)?\]\]` .RawContent -}}
+{{- range $rawLinks -}}
+{{- $targetTitle := replaceRE `^\[\[([^\]|]+).*$` "$1" . -}}
+{{- range where site.RegularPages "Title" $targetTitle -}}
+{{- $links = $links | append (dict "source" $pageID "target" .RelPermalink "type" "wiki") -}}
+{{- end -}}
+{{- end -}}
+{{- end -}}
 {{- end -}}
 <article class="post-single">
   <header class="post-header">
@@ -32,6 +34,7 @@
       <select id="garden-graph-filter" aria-label="Filter node type">
         <option value="all">All</option>
         <option value="page">Posts</option>
+        <option value="note">Notes</option>
         <option value="tag">Tags</option>
       </select>
     </div>
